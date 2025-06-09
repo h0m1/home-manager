@@ -14210,6 +14210,107 @@ strings concatenated with “\n”</p>
 </dd>
 <dt>
  <span class="term">
+ <a id="opt-programs.aichat.enable"></a><a class="term" href="options.xhtml#opt-programs.aichat.enable"><code class="option">programs.aichat.enable</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable aichat, an All-in-one LLM CLI tool.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">false</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/aichat.nix" target="_top">
+&lt;home-manager/modules/programs/aichat.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.aichat.package"></a><a class="term" href="options.xhtml#opt-programs.aichat.package"><code class="option">programs.aichat.package</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>The aichat package to use.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or package</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">pkgs.aichat</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/aichat.nix" target="_top">
+&lt;home-manager/modules/programs/aichat.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.aichat.settings"></a><a class="term" href="options.xhtml#opt-programs.aichat.settings"><code class="option">programs.aichat.settings</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Configuration written to
+<code class="filename">$XDG_CONFIG_HOME/aichat/config.yaml</code>
+on Linux or on Darwin if <a class="xref" href="options.xhtml#opt-xdg.enable"  ><code class="option">xdg.enable</code></a> is set, otherwise
+<code class="filename">~/Library/Application Support/aichat/config.yaml</code>.
+See
+<a class="link" href="https://github.com/sigoden/aichat/blob/main/config.example.yaml"  target="_top">https://github.com/sigoden/aichat/blob/main/config.example.yaml</a>
+for supported values.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+YAML value</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">{ }</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
+  model = &quot;ollama:mistral-small3.1:latest&quot;;
+  clients = [
+    {
+      type = &quot;openai-compatible&quot;;
+      name = &quot;ollama&quot;;
+      api_base = &quot;http://localhost:11434/v1&quot;;
+      models = [
+        {
+          name = &quot;mistral-small3.1:latest&quot;;
+          supports_function_calling = true;
+          supports_vision = true;
+        }
+      ];
+    }
+  ];
+}
+
+</code></pre>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/aichat.nix" target="_top">
+&lt;home-manager/modules/programs/aichat.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
  <a id="opt-programs.alacritty.enable"></a><a class="term" href="options.xhtml#opt-programs.alacritty.enable"><code class="option">programs.alacritty.enable</code>
   </a>
  </span>
@@ -20291,7 +20392,7 @@ TOML value</p>
     images = true;
     autofocus = true;
   };
-  pager.&quot;C-k&quot; = &quot;() =&gt; pager.load(&#x27;https://duckduckgo.com/?=&#x27;)&quot;;
+  page.&quot;C-k&quot; = &quot;() =&gt; pager.load(&#x27;ddg:&#x27;)&quot;;
 }
 
 </code></pre>
@@ -24519,8 +24620,9 @@ attribute set of (submodule)</p>
 <code class="literal">{ }</code></p>
 
 <p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
-  &quot;alt-s&quot;.command = &quot;fish_commandline_prepend sudo&quot;;
   &quot;alt-shift-b&quot;.command = &quot;fish_commandline_append bat&quot;;
+  &quot;alt-s&quot;.erase = true;
+  &quot;alt-s&quot;.operate = &quot;preset&quot;;
 }
 
 </code></pre>
@@ -24541,7 +24643,7 @@ attribute set of (submodule)</p>
  </span>
 </dt>
 <dd>
-<p>Whether to enable enable the bind.</p>
+<p>Whether to enable enable the bind. Set false if you want to ignore the bind.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
 boolean</p>
@@ -24571,7 +24673,10 @@ boolean</p>
 <p>command that will be execute</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
-string or list of string</p>
+string or list of string (optional when erase is set to true)</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -39641,6 +39746,84 @@ YAML value</p>
 </dd>
 <dt>
  <span class="term">
+ <a id="opt-programs.lazysql.enable"></a><a class="term" href="options.xhtml#opt-programs.lazysql.enable"><code class="option">programs.lazysql.enable</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable lazysql.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">false</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/lazysql.nix" target="_top">
+&lt;home-manager/modules/programs/lazysql.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.lazysql.package"></a><a class="term" href="options.xhtml#opt-programs.lazysql.package"><code class="option">programs.lazysql.package</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>The lazysql package to use.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or package</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">pkgs.lazysql</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/lazysql.nix" target="_top">
+&lt;home-manager/modules/programs/lazysql.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.lazysql.settings"></a><a class="term" href="options.xhtml#opt-programs.lazysql.settings"><code class="option">programs.lazysql.settings</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Configuration settings for lazysql.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+TOML value</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">{ }</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">{ }</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/lazysql.nix" target="_top">
+&lt;home-manager/modules/programs/lazysql.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
  <a id="opt-programs.ledger.enable"></a><a class="term" href="options.xhtml#opt-programs.ledger.enable"><code class="option">programs.ledger.enable</code>
   </a>
  </span>
@@ -48707,6 +48890,121 @@ attribute set of string</p>
 </dd>
 <dt>
  <span class="term">
+ <a id="opt-programs.nyxt.enable"></a><a class="term" href="options.xhtml#opt-programs.nyxt.enable"><code class="option">programs.nyxt.enable</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable Nyxt.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">false</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/nyxt.nix" target="_top">
+&lt;home-manager/modules/programs/nyxt.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.nyxt.package"></a><a class="term" href="options.xhtml#opt-programs.nyxt.package"><code class="option">programs.nyxt.package</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>The nyxt package to use.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or package</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">pkgs.nyxt</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/nyxt.nix" target="_top">
+&lt;home-manager/modules/programs/nyxt.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.nyxt.config"></a><a class="term" href="options.xhtml#opt-programs.nyxt.config"><code class="option">programs.nyxt.config</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Configuration file for Nyxt, written in the Common Lisp
+programming language.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+strings concatenated with “\n” or absolute path</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">&quot;&quot;</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">&#x27;&#x27;
+  (in-package #:nyxt-user)
+  
+  (defvar *my-search-engines*
+    (list
+     (make-instance &#x27;search-engine
+                    :name &quot;Google&quot;
+                    :shortcut &quot;goo&quot;
+                    #+nyxt-4 :control-url #+nyxt-3 :search-url
+                    &quot;https://duckduckgo.com/?q=~a&quot;)
+     (make-instance &#x27;search-engine
+                    :name &quot;MDN&quot;
+                    :shortcut &quot;mdn&quot;
+                    #+nyxt-4 :control-url #+nyxt-3 :search-url
+                    &quot;https://developer.mozilla.org/en-US/search?q=~a&quot;)))
+  
+  (define-configuration browser
+    ((restore-session-on-startup-p nil)
+     (default-new-buffer-url (quri:uri &quot;https://github.com/atlas-engineer/nyxt&quot;))
+     (external-editor-program (if (member :flatpak *features*)
+                                  &quot;flatpak-spawn --host emacsclient -r&quot;
+                                  &quot;emacsclient -r&quot;))
+     #+nyxt-4
+     (search-engine-suggestions-p nil)
+     #+nyxt-4
+     (search-engines (append %slot-default% *my-search-engines*))
+     ;; Sets the font for the Nyxt UI (not for webpages).
+     (theme (make-instance &#x27;theme:theme
+                           :font-family &quot;Iosevka&quot;
+                           :monospace-font-family &quot;Iosevka&quot;))
+     ;; Whether code sent to the socket gets executed.  You must understand the
+     ;; risks before enabling this: a privileged user with access to your system
+     ;; can then take control of the browser and execute arbitrary code under your
+     ;; user profile.
+     ;; (remote-execution-p t)
+     ))
+&#x27;&#x27;
+</code></pre>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/nyxt.nix" target="_top">
+&lt;home-manager/modules/programs/nyxt.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
  <a id="opt-programs.obs-studio.enable"></a><a class="term" href="options.xhtml#opt-programs.obs-studio.enable"><code class="option">programs.obs-studio.enable</code>
   </a>
  </span>
@@ -53393,7 +53691,7 @@ boolean</p>
 <p>The qutebrowser package to use.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
-package</p>
+null or package</p>
 
 <p><span class="emphasis"><em>Default:</em></span>
 <code class="literal">pkgs.qutebrowser</code></p>
@@ -71012,7 +71310,7 @@ boolean</p>
 <p>The zed-editor package to use.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
-package</p>
+null or package</p>
 
 <p><span class="emphasis"><em>Default:</em></span>
 <code class="literal">pkgs.zed-editor</code></p>
@@ -71153,7 +71451,7 @@ attribute set of (JSON value or absolute path or strings concatenated with “\n
 JSON value</p>
 
 <p><span class="emphasis"><em>Default:</em></span>
-<code class="literal">{ }</code></p>
+<code class="literal">[ ]</code></p>
 
 <p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">[
   {
@@ -72996,16 +73294,6 @@ list of (submodule)</p>
 
 <p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">[
   {
-    # will source zsh-autosuggestions.plugin.zsh
-    name = &quot;zsh-autosuggestions&quot;;
-    src = pkgs.fetchFromGitHub {
-      owner = &quot;zsh-users&quot;;
-      repo = &quot;zsh-autosuggestions&quot;;
-      rev = &quot;v0.4.0&quot;;
-      sha256 = &quot;0z6i9wjjklb4lvr7zjhbphibsyx51psv50gm07mbb0kj9058j6kc&quot;;
-    };
-  }
-  {
     name = &quot;enhancd&quot;;
     file = &quot;init.sh&quot;;
     src = pkgs.fetchFromGitHub {
@@ -73015,9 +73303,39 @@ list of (submodule)</p>
       sha256 = &quot;0iqa9j09fwm6nj5rpip87x3hnvbbz9w9ajgm6wkrd5fls8fn8i5g&quot;;
     };
   }
+{
+  name = &quot;wd&quot;;
+  src = pkgs.zsh-wd;
+  file = &quot;share/wd/wd.plugin.zsh&quot;;
+  completions = [ &quot;share/zsh/site-functions&quot; ];
+}
 ]
 
 </code></pre>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/programs/zsh.nix" target="_top">
+&lt;home-manager/modules/programs/zsh.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-programs.zsh.plugins._.completions"></a><a class="term" href="options.xhtml#opt-programs.zsh.plugins._.completions"><code class="option">programs.zsh.plugins.*.completions</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Paths of additional functions to add to <code class="envar">fpath</code>.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+list of string</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">[ ]</code></p>
 
 <p><span class="emphasis"><em>Declared by:</em></span></p>
 <table border="0" summary="Simple list" class="simplelist">
@@ -73035,7 +73353,9 @@ list of (submodule)</p>
  </span>
 </dt>
 <dd>
-<p>The plugin script to source.</p>
+<p>The plugin script to source.
+Required if the script name does not match <code class="filename">name.plugin.zsh</code>
+using the plugin <code class="option">name</code> from the plugin <code class="option">src</code>.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
 string</p>
@@ -73056,8 +73376,7 @@ string</p>
  </span>
 </dt>
 <dd>
-<p>The name of the plugin.</p><p>Don’t forget to add <code class="option">file</code>
-if the script name does not follow convention.</p>
+<p>The name of the plugin.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
 string</p>
@@ -81871,6 +82190,33 @@ Hypridle configuration value</p>
 </dd>
 <dt>
  <span class="term">
+ <a id="opt-services.hypridle.systemdTarget"></a><a class="term" href="options.xhtml#opt-services.hypridle.systemdTarget"><code class="option">services.hypridle.systemdTarget</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Systemd target to bind to.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+string</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">config.wayland.systemd.target</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">&quot;hyprland-session.target&quot;</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/hypridle.nix" target="_top">
+&lt;home-manager/modules/services/hypridle.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
  <a id="opt-services.hyprpaper.enable"></a><a class="term" href="options.xhtml#opt-services.hyprpaper.enable"><code class="option">services.hyprpaper.enable</code>
   </a>
  </span>
@@ -84332,6 +84678,191 @@ package</p>
 <tr><td>
 <code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/lorri.nix" target="_top">
 &lt;home-manager/modules/services/lorri.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-services.ludusavi.enable"></a><a class="term" href="options.xhtml#opt-services.ludusavi.enable"><code class="option">services.ludusavi.enable</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Whether to enable Ludusavi game backup tool.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">false</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">true</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/ludusavi.nix" target="_top">
+&lt;home-manager/modules/services/ludusavi.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-services.ludusavi.package"></a><a class="term" href="options.xhtml#opt-services.ludusavi.package"><code class="option">services.ludusavi.package</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>The ludusavi package to use.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+package</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">pkgs.ludusavi</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/ludusavi.nix" target="_top">
+&lt;home-manager/modules/services/ludusavi.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-services.ludusavi.backupNotification"></a><a class="term" href="options.xhtml#opt-services.ludusavi.backupNotification"><code class="option">services.ludusavi.backupNotification</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Send a notification message after a successful backup.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+boolean</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">false</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/ludusavi.nix" target="_top">
+&lt;home-manager/modules/services/ludusavi.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-services.ludusavi.configFile"></a><a class="term" href="options.xhtml#opt-services.ludusavi.configFile"><code class="option">services.ludusavi.configFile</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Path to a Ludusavi <code class="literal">config.yaml</code>. Mutually exclusive with the <code class="literal">settings</code> option.
+See https://github.com/mtkennerly/ludusavi/blob/master/docs/help/configuration-file.md for available options.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+null or absolute path</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">null</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/ludusavi.nix" target="_top">
+&lt;home-manager/modules/services/ludusavi.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-services.ludusavi.frequency"></a><a class="term" href="options.xhtml#opt-services.ludusavi.frequency"><code class="option">services.ludusavi.frequency</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>How often to run ludusavi. This value is passed to the systemd
+timer configuration as the onCalendar option.  See
+<a class="link" href="https://www.freedesktop.org/software/systemd/man/systemd.time.html" target="_top"><span class="citerefentry"><span class="refentrytitle">systemd.time</span>(7)</span></a>
+for more information about the format.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+string</p>
+
+<p><span class="emphasis"><em>Default:</em></span>
+<code class="literal">&quot;daily&quot;</code></p>
+
+<p><span class="emphasis"><em>Example:</em></span>
+<code class="literal">&quot;*-*-* 8:00:00&quot;</code></p>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/ludusavi.nix" target="_top">
+&lt;home-manager/modules/services/ludusavi.nix&gt;
+</a></code>
+</td></tr>
+</table>
+</dd>
+<dt>
+ <span class="term">
+ <a id="opt-services.ludusavi.settings"></a><a class="term" href="options.xhtml#opt-services.ludusavi.settings"><code class="option">services.ludusavi.settings</code>
+  </a>
+ </span>
+</dt>
+<dd>
+<p>Ludusavi configuration as an attribute set. See
+https://github.com/mtkennerly/ludusavi#configuration-file
+for available options.</p>
+
+<p><span class="emphasis"><em>Type:</em></span>
+YAML value</p>
+
+<p><span class="emphasis"><em>Default:</em></span></p><pre><code class="programlisting">{
+  backup = {
+    path = &quot;$XDG_STATE_HOME/backups/ludusavi&quot;;
+  };
+  manifest = {
+    url = &quot;https://raw.githubusercontent.com/mtkennerly/ludusavi-manifest/master/data/manifest.yaml&quot;;
+  };
+  restore = {
+    path = &quot;$XDG_STATE_HOME/backups/ludusavi&quot;;
+  };
+  roots = [ ];
+}
+</code></pre>
+
+<p><span class="emphasis"><em>Example:</em></span></p><pre><code class="programlisting">{
+  backup = {
+    path = &quot;~/.local/state/backups/ludusavi&quot;;
+  };
+  language = &quot;en-US&quot;;
+  restore = {
+    path = &quot;~/.local/state/backups/ludusavi&quot;;
+  };
+  roots = [
+    {
+      path = &quot;~/.local/share/Steam&quot;;
+      store = &quot;steam&quot;;
+    }
+  ];
+  theme = &quot;light&quot;;
+}
+</code></pre>
+
+<p><span class="emphasis"><em>Declared by:</em></span></p>
+<table border="0" summary="Simple list" class="simplelist">
+<tr><td>
+<code class="filename"><a class="filename"  href="https://github.com/nix-community/home-manager/blob/master/modules/services/ludusavi.nix" target="_top">
+&lt;home-manager/modules/services/ludusavi.nix&gt;
 </a></code>
 </td></tr>
 </table>
@@ -107116,7 +107647,7 @@ absolute path</p>
  </span>
 </dt>
 <dd>
-<p>Desktop Entries allow applications to be shown in your desktop environment’s app launcher.</p><p>You can define entries for programs without entries or override existing entries.</p><p>See <a class="link" href="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#recognized-keys"  target="_top">https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#recognized-keys</a> for more information on options.</p>
+<p>Desktop Entries allow applications to be shown in your desktop environment’s app launcher.</p><p>You can define entries for programs without entries or override existing entries.</p><p>See <a class="link" href="https://specifications.freedesktop.org/desktop-entry-spec/latest/recognized-keys.html"  target="_top">https://specifications.freedesktop.org/desktop-entry-spec/latest/recognized-keys.html</a> for more information on options.</p>
 
 <p><span class="emphasis"><em>Type:</em></span>
 attribute set of (submodule)</p>
